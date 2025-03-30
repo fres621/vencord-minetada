@@ -170,8 +170,8 @@ export default definePlugin({
         {
             find: ".jumboable?",
             replacement: [{
-                match: /(?<=let{node:(\i),.{0,1000})shouldShow:.{0,5}(,.{0,500}){tag:"span",onClick:/,
-                replace: "shouldShow:false$2{tag:$self.emojiTooltip,vcEmoji:$1,onClick:"
+                match: /(?<=let{node:(\i),.{0,1000})shouldShow:.{0,5}(,.{0,100}CustomEmojiTooltipShown.{0,500})tag:"span"/,
+                replace: "shouldShow:false$2tag:$self.emojiTooltip,vcEmoji:$1"
             },
             {
                 match: /shouldShow:.{0,5},(.{0,50}emojiNode:(\w),.{0,500}tag:)"span"/,
