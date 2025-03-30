@@ -1,0 +1,91 @@
+@font-face {
+    font-family: Minecraft;
+    src: url('https://minecraft.wiki/images/Minecraft.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+#minetip-tooltip {
+    width: max-content;
+    max-width: 384px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #100010bb;
+    padding: 0.375em;
+    font-family: Minecraft,sans-serif;
+    font-size: 16px;
+    word-spacing: 4px;
+    white-space: normal;
+    line-height: 1.25em;
+    margin: 0.125em 0.25em;
+    pointer-events: none;
+    z-index: 6942069420;
+    color: #FBFBFB;
+    text-shadow: 0.125em 0.125em 0 #3E3E3E;
+    box-sizing: border-box;
+    backdrop-filter: blur(8px);
+}
+
+#minetip-tooltip .label {
+    display: block;
+    width: 100%;
+    overflow-wrap: anywhere;
+}
+
+#minetip-tooltip::before {
+    content: "";
+    position: absolute;
+    inset: 0.125em -0.125em;
+    border: 0.15em solid #100010;
+    border-style: none solid;
+    border-color: #100010;
+}
+
+#minetip-tooltip::after {
+    content: "";
+    position: absolute;
+    inset: 0.125em 0;
+    border: 0.125em solid #2D0A63;
+    border-image: linear-gradient(#5000ff4f,#28007f4f) 1;
+}
+
+
+.mc-dark-green {
+    color: #0A0;
+    text-shadow: 0.125em 0.125em 0 #002A00;
+}
+
+.mc-aqua {
+    color: #5FF;
+    text-shadow: 0.125em 0.125em 0 #153F3F;
+}
+
+.mc-gray {
+    color: #AAA;
+    text-shadow: 0.125em 0.125em 0 #2A2A2A;
+}
+
+.mc-dark-gray {
+    color: #555;
+    text-shadow: 0.125em 0.125em 0 #151515;
+}
+
+.mc-blue {
+    color: #55F;
+    text-shadow: 0.125em 0.125em 0 #15153F;
+}
+
+.mc-yellow {
+    color: #FF5;
+    text-shadow: 0.125em 0.125em 0 #3F3F15;
+}
+
+.mc-magenta {
+    color: #A800A8;
+    text-shadow: 0.125em 0.125em 0 #2A002A;
+}
+
+.mc-italic {
+    font-style: italic;
+}
