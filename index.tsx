@@ -163,6 +163,7 @@ export default definePlugin({
         {
             find: ".gifFavoriteButton,children",
             replacement: {
+                /** Patch for attachments */
                 match: /(?<={let{props:(\i),.{0,500})(?<=return.{0,20}\)\()(\i\.?\i\.Provider),{/,
                 replace: "$self.attachmentTooltip,{Original:$2,vencordData:$1,"
             }
@@ -170,16 +171,29 @@ export default definePlugin({
         {
             find: ".jumboable?",
             replacement: [{
+                /** Patch for custom emojis */
                 match: /(?<=let{node:(\i),.{0,1000})shouldShow:.{0,5}(,.{0,100}CustomEmojiTooltipShown.{0,500})tag:"span"/,
                 replace: "shouldShow:false$2tag:$self.emojiTooltip,vcEmoji:$1"
             },
             {
+                /** Patch for unicode twemoji emojis */
                 match: /shouldShow:.{0,5},(.{0,50}emojiNode:(\w),.{0,500}tag:)"span"/,
                 replace: "shouldShow:false,$1$self.emojiTooltip,vcEmoji:$2"
             }]
+        },
+        {
+            find: ".clickableSticker,",
+            replacement: {
+                /** Patch for stickers */
+                match: /shouldShow:\i,(.{0,500})\((?<original>\i\.\i),{(?=.{0,50}sticker:null!=\i\?(?<full>\i):(?<raw>\i))/,
+                replace: "shouldShow:false,$1($self.stickerTooltip,{Original:$<original>,"
+            }
         }
     ],
-
+    stickerTooltip({ Original, ...props }) {
+        console.log('Sticker patch ->', props);
+        return <Original {...props} />;
+    },
     emojiTooltip({ vcEmoji, ...props }) {
         const [shouldShowOverlay, setShouldShowOverlay] = useState(false);
         const [ctrlHeld, setCtrlHeld] = useState(false);
