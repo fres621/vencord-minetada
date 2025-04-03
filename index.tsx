@@ -188,24 +188,32 @@ export default definePlugin({
                 match: /shouldShow:\i,(.{0,500})\((?<original>\i\.\i),{(?=.{0,50}sticker:null!=\i\?(?<full>\i):(?<raw>\i))/,
                 replace: "shouldShow:false,$1($self.stickerTooltip,{Original:$<original>,"
             }
+        },
+        { /** (hacky?) patch to get ref in the component for emojiTooltip */
+            find: "this.renderInner()",
+            replacement: [{
+                match: /{ref:this.setRef,/,
+                replace: "$&vcRef:this.setRef,"
+            }, {
+                match: /onKeyPress:this.handleKeyPress,/,
+                replace: "$&vcRef:this.setRef,"
+            }]
         }
     ],
     stickerTooltip({ Original, ...props }) {
         console.log('Sticker patch ->', props);
         return <Original {...props} />;
     },
-    emojiTooltip({ vcEmoji, ...props }) {
+    emojiTooltip({ vcEmoji, vcRef, ...props }) {
         const [shouldShowOverlay, setShouldShowOverlay] = useState(false);
         const [ctrlHeld, setCtrlHeld] = useState(false);
         const [initialPos, setInitialPos] = useState({ x: 0, y: 0 });
         // const [fetchedSource, setFetchedSource] = useState(null); TODO fetch source. optionally keep a cache
         function onMouseEnter(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-            console.log("Hovered item:", vcEmoji);
             setInitialPos({ x: event.pageX, y: event.pageY });
             setShouldShowOverlay(true);
         }
         function onMouseLeave() {
-            console.log("gone");
             setShouldShowOverlay(false);
         }
         const texts: (Elem | React.ReactElement)[] = [];
@@ -231,7 +239,7 @@ export default definePlugin({
         });
         return (
             <>
-                <span {...props} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} />
+                <span ref={vcRef} {...props} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} />
                 {shouldShowOverlay && ReactDOM.createPortal(
                     ctrlHeld ? <></> : <CraftyMousePopout
                         ctrlState={[ctrlHeld, setCtrlHeld]}
@@ -250,14 +258,12 @@ export default definePlugin({
         const [ctrlHeld, setCtrlHeld] = useState(false);
         const [initialPos, setInitialPos] = useState({ x: 0, y: 0 });
         function onMouseEnter(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-            console.log("Hovered item:", vencordData);
             setShiftHeld(event.shiftKey);
             setCtrlHeld(event.ctrlKey);
             setInitialPos({ x: event.pageX, y: event.pageY });
             setShouldShowOverlay(true);
         }
         function onMouseLeave() {
-            console.log("gone");
             setShiftHeld(false);
             setCtrlHeld(false);
             setShouldShowOverlay(false);
